@@ -137,8 +137,8 @@ Una vez esten todos los campos completados guardar los cambios.
 > Cabe advertir que en caso de disponer de un firewall en el servidor, deberemos crear una regla que permita conexiones entrantes y salientes por el puerto 22.
 
 Con iptables solo habría que ejecutar los comandos:
-`iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT`
+`iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT`
+`iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT`
 
 *-A para indicar entrada o salida*
 *-dport para el puerto de destino del paquete*
