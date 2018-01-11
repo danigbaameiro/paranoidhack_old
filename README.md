@@ -138,6 +138,7 @@ Una vez esten todos los campos completados guardar los cambios.
 
 Con iptables solo habría que ejecutar los comandos:
 `iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT`
+
 `iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT`
 
 *-A para indicar entrada o salida*
