@@ -1,0 +1,41 @@
+## VPN - Virtual private Network
+
+### ¿Qué es?
+Una conexión por VPN crea una red privada sin tener los dispositivos conectados de forma física unos con otros. Pueden ser ordenadores de distintas partes del mundo. Esta conexión se realiza haciendo uso de Internet.
+
+En cuanto nos conectamos al servidor Vpn nuestro ordenador pasará a formar parte de la red privada virtual haciendo semejante la misma a una red local obteniendo así todas las características que presenta la misma.
+
+Imaginemos que queremos conectarnos a la red privada de nuestra Universidad o empresa. Podemos realizar esta conexión a traves de una VPN.
+
+La conexión establece un tunel cifrado entre nuestro ordenador y la VPN, de esta forma aunque se intercepte el tráfico no se podrá saber qué uso estamos haciendo. Para poder realizar la conexión se ha de configurar la autenticación previamente.
+
+
+### ¿Qué utilidad presenta?
+Al conectarnos a través de un tunel cifrado nuestro ISP (Proveedor de Servicios en Internet) nunca podrá tener acceso a nuestro contenido. Normalmente todas las páginas que consultamos son registradas por nuestro proveedor de servicios en internet, quien, al menos por ley, debe conservarlas durante varios años.
+
+### ¿Es totalmente seguro?
+Toda conexión que realizamos con la VPn registra Logs. Dichos logs en caso de ser guardados pasan a disposición de quien nos ofrezca el servicio VPN (podemos ser incluso nosotros mismos quienes creemos nuestra propia VPN).
+
+Al igual que nos pasaba con los proxys, nunca debemos de fiarnos con aquellos que ofrecen un servicio gratuito pues pueden estar vendiendo toda la información que recopilan de nuestras conexiones.
+
+Hay proveedores de VPN que prometen que cifran los LOGS. Legamente estan permitiendo a cualquier cuerpo de seguridad que los requiera poder acceder a ellos. El inconveniente es que al estar cifrados dichos logs de nada sirven.
+
+Existen proveedores VPN que permiten pagar con tarjetas regalo de amazon, con varias cryptomonedas y diferentes métodos de pago.
+
+
+### Servicios gratuitos de VPN's
+  1. http://cyberghostvpn.com
+  2. http://www.securitykiss.com
+  3. http://www.vpngate.net/en/
+
+### Servicios de pago con buena reputación
+  1. https://nordvpn.com/es/
+
+### Tabla comparativa de diferentes servicios VPN
+  1. https://thatoneprivacysite.net/simple-vpn-comparison-chart/
+
+### Configuración VPN IPredator
+> Nos permite tener 3 días de prueba
+
+### Configuración VPN Universidad Complutense de Madrid
+> Solo para estudiantes. Acceso gratuito.

@@ -1,0 +1,25 @@
+## Anon Surf
+
+### Sus inicios
+Esta herramienta fue creada por los desarrolladores:
+
+    Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>
+	Lisetta "Sheireen" Ferrero <sheireen@parrotsec.org>
+    Francesco "Mibofra" Bonanno <mibofra@parrotsec.org>
+
+### ¿Qué es?
+Herramienta "one click" como suelo llamar a este tipo de herramienta. Nos permite controlar y anonimizar todo nuestro tráfico en red de una forma fácil y sencilla.
+
+Posee las opciones:
+1. Anonsurf start
+2. Anonsurf stop
+3. Change exit node
+4. Start i2p
+5. Stop i2p
+
+### Mejoras recibidas
+Si algo bueno tiene el software libre es que permite la modificación del código en base a las necesidades que nosotros tengamos. Algunas de estas modificaciones pueden ser:
+- https://dev.parrotsec.org/Sawyer/anonsurf
+  - Nos añade una modificación directa de toda dirección MAC que persente nuestro dispositivo y nos da toda la informacińo a través de notificaciones para facilitar al usuario el entendimiento de los profecos realizados a través de anonsurf.
+
+  

@@ -1,0 +1,91 @@
+## Tunel ssh
+El protocolo SSH (secure shell) se utiliza para “tunelizar” tráfico confidencial sobre Internet de una manera segura.
+
+Por ejemplo, un servidor de ficheros puede compartir archivos usando el protocolo SMB (Server Message Block), cuyos datos no viajan cifrados. Esto permitiría que una tercera parte, que tuviera acceso a la conexión (algo posible si las comunicaciones se realizan en Internet) pudiera examinar a conciencia el contenido de cada fichero trasmitido.
+
+Para poder montar el sistema de archivo de forma segura, se establece una conexión mediante un túnel SSH que encamina todo el tráfico SMB al servidor de archivos dentro de una conexión cifrada SSH. Aunque el protocolo SMB sigue siendo inseguro, al viajar dentro de una conexión cifrada se impide el acceso al mismo.
+
+Por ejemplo, para conectar con un servidor web de forma segura, utilizando SSH, haríamos que el cliente web, en vez de conectarse al servidor directamente, se conecte a un cliente SSH. El cliente SSH se conectaría con el servidor tunelizado, el cual a su vez se conectaría con el servidor web final. Lo atractivo de este sistema es que hemos añadido una capa de cifrado sin necesidad de alterar ni el cliente ni el servidor web.
+
+Es decir, ¿cual es la idea? La idea es realizar una conexión que vaya cifrada haciendo que esta, aún siendo interceptada, sea segura impidiendo poder visualizar su contenido.
+
+El tener una conexión cifrada impide que alguien pueda esnifar el tráfico y pueda visualizar el contenido de nuestras peticiones a la red (que pueda ver, por ejemplo, las páginas que visitamos). También impida que en caso de estar bajo un ataque man in the middle el atacante pueda modificar los paquetes (al estar cifrado un atacante se vería en una gran dificultad para realizar la modificación de los paquetes). Hay otros ataques de los cuales podemos sentirnos seguros haciendo uso de un tunel ssh como pueden ser ARP o DNS Spoofing
+
+Para establecer un túnel SSH necesitaremos un ordenador fuera de nuestra Red local en que la seguridad está comprometida, que actúe como servidor SSH.
+
+En el momento que el cliente establezca comunicación con el servidor SSH se creará un Túnel de comunicación entre el cliente que está en la red local comprometida y el servidor SSH que está fuera de la red local comprometida.
+
+Cuando el cliente introduzca una dirección en el navegador se enviará una petición http al servidor SSH con las siguientes particularidades:
+	- La petición http viajará por el túnel SSH que hemos establecido.
+	- Nuestra petición, y la totalidad de tráfico entrante y saliente estará completamente cifrado.
+
+Los túneles SSH son una buena solución para asegurar la comunicación entre 2 máquinas y para fortificar protocolos débiles como por ejemplo HTTP, SMTP. FTP, Telnet, etc.
+
+Montarse un servidor SSH propio es mucho más sencillo que montarse un servidor VPN o un servidor proxy. Recordemos que las cosas hechas por uno mismo son más seguras...
+
+
+### Estableciendo un tunel ssh
+El primer paso es disponer de un servidor al cual nos conectaremos por ssh. Si no disponemos de uno podemos crearnos uno nosotros mismos en nuestra propia casa ya sea haciendo uso de un ordenador personal que se quedará en casa o de una raspberry.
+
+Deberemos asegurarnos de que nuestro ordenador dispone de un servidor ssh instalado. En caso de no tenerlo, bastaría con ejecutar por terminal: sudo apt-get install openssh-server openssh-client
+
+> Se necesitan ambas partes instaladas en cada ordenador, tanto cliente como servidor.
+
+Si queremos adaptar la configuración del servidor a nuestros requerimientos, se debe modificar el archivo sshd_config situado en la ruta /etc/ssh/sshd_config ( comando: `sudo pluma /etc/ssh/sshd_config` ).
+
+Nuestro ordenador, el cual actuará de servidor, debe ser accesible desde fuera. Si no es accesible desde el exterior no podríamos crear el tunel ssh. En caso de disponer de una dirección IP fija no habría más problema que conocer la dirección IP. Anonsurf nos trae una herramienta que nos indica cual es nuestra dirección IP (“check IP”). Suele ser común que nuestro proveedor de red nos asigne una dirección IP dinámica.
+
+
+Lo siguiente que deberemos hacer una vez tengamos seguro la dirección IP pública de nuestro servidor, redireccionar las peticiones del router a la dirección IP interna del servidor ssh.
+
+Observamos la dirección IP interna del servidor. Podemos obtenerla haciendo uso del comando `sudo ifconfig`.
+
+> Dicha dirección IP también debe ser fija. Por lo normal mientras este conectado al router dicha dirección IP no cambiará.
+
+A continuación deberemos acceder a la configuración del router. Normalmente vale con escribir 192.168.1.1 en el navegador. Dentro de la configuración del router deberemos buscar un apartado que ponga Virtual Servers. Accediendo a dicho apartado deberemos presionar el boton añadir (*Add en inglés*). Deberemos completar con la dirección IP interna, con la opción *Secure Shell Server (SSH)*, con el protocolo *TCP* y el puerto *22*.
+
+Una vez esten todos los campos completados guardar los cambios.
+
+> Cabe advertir que en caso de disponer de un firewall en el servidor, deberemos crear una regla que permita conexiones entrantes y salientes por el puerto 22.
+
+Con iptables solo habría que ejecutar los comandos:
+```sh
+iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+```
+
+*-A para indicar entrada o salida*
+*-dport para el puerto de destino del paquete*
+*-sport para la fuente del paquete*
+*-o para la interfaz de red de salida*
+*-i para la interfaz de red de entrada*
+*-m state –state para habilitar el modulo state con los respectivos estados escritos*
+*-j para aceptar el objetivo*
+
+
+Hasta aquí ya tendriamos todo montado.
+
+### Realizar la conexión
+Lo primero de todo asegurarse que el cliente, ordenador desde el que nos conectamos al servidor que hemos creado, tiene instalado el paquete openssh-client.
+
+Una vez tengamos todo comprobado, para realizar la conexión ejecutaremos:
+ssh -p 22 -N -D 8081 sawyer@parrotsec.org
+
+*-p para establecer el puerto de escucha*
+*-D especificamos que se realice un reenvio dinámico de puertos o tunel dinámico*
+*-N permite que se establezca el tunel ssh pero que no se abra una sesión interactiva con el servidor ssh*
+*sawyer es la cuenta a la que nos conectamos*
+*parrotsec.org es la dirección del server al que nos conectamos*
+
+### Configurando el navegador
+
+Deberemos acceder a las opciones de conexión a través de un proxy. Como el servidor proxy socks actuará localmente en nuestro ordenador en el apartado Host or IP address tenemos que introducir 127.0.0.1. Como el tunel SSH lo hemos abierto a través del puerto 8081 en la celda puerto tenemos que introducir el número de puerto 8081. Para finalizar tan solo tenemos que tildar la opción ¿proxy socks? y seleccionar la opción Socks v5 ya que la versión 5 del protocolo socks es más moderna y ofrece mayor seguridad que la versión 4.
+
+Una vez realizados todos los pasos presionamos el botón Aceptar. Cerramos el navegador y lo volvemos abrir de nuevo.
+
+
+> En caso de caer el servidor se nos cae a nosotros también la conexión a través del navegador.
+
+Podemos hacer uso para la configuración del apartado de opciones de conexión a través de un proxy de herramientas como FoxyProxy (en el caso de Firefox) o Proxy Switchy (en el caso de chromium).
+
+En caso tener aplicaciones que no soportan socks podremos hacer uso de tsocks.

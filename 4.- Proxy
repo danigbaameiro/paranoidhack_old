@@ -1,0 +1,35 @@
+## Proxy
+Dicho de forma simple:  es una máquina a través de la cueal podemos conectarnos a servidores web, haciendo pensar a estos que somos dicha máquina.
+
+Cuando estamos navegando a través de un proxy, lo que estamos haciendo es hacer peticiones al servidor proxy. Luego este es el encargado de hacer la petición al servidor al que queremos conectarnos. Se podría decir que un proxy es un intermediario.
+
+> Solo se van a comentar servidores http proxy o proxy web. Existen otros servidores proxy como por ejemplo los servidores Proxy socks o Forward Proxy.
+
+### Ventajas
+La principal ventaja es ocultar información a la gente que nos está rastreando. Mediante el uso de un proxy no somos anónimos, solo desviamos la atención.
+
+Nuestra dirección IP puede señalarnos en el mapa, literalmente. Usando un proxy cuya dirección IP procede de un servidor en EEUU, el servidor al que nos conectamos pensará que nos conectamos desde EEUU.
+
+Para consultar toda la información que se puede obtener a través de nuestra dirección ip podemos visitar páginas como: http://xhaus.com/headers
+
+Puede parecer una chorrada, pero al proporcionar datos como la versión del navegador estamos dando a un posible atacante los puntos por donde puede atcarnos.
+
+
+### Cómo conectarse a un proxy
+Buscar un servidor proxy al que conectarnos: tan solo con buscar en google “proxy list” nos aparecerán resultados. Algunos de los encontrados son www.ip-adress.com/proxy_list/ o http://www.hidemyass.com/
+
+#### Elegir bien el tipo de proxy:
+- **Proxy Transparante:** este tipo de proxy proporciona la totalidad de datos mencionados en el apartado anterior al servidor web al cual nos conectamos. Es decir, nuestra IP será visible en todo momento.
+
+- **Proxy Anónimo:** si queremos usar un proxy solo para navegar es más que suficiente para nosotros. Este tipo de proxy enmascara la variable http_x_forwarded_for impidiendo dar nuestra dirección IP.  Pese a no poder saber nuestra dirección IP si puede saberse que estamos realizando la conexión a través de un proxy.
+
+- **Proxy Elite:** este proxy enmascara la variable http_x_forwarded_for, a la vez que otras otras variables como pueden ser la http_via y http_proxy_connection. Estaremos falseando la totalidad de información que entregamos al servidor web y además no podrán detectar que nos estamos conectando a través de un servidor proxy.
+
+Datos que necesitamos saber para conectarnos: dirección IP y puerto
+
+Cómo conectarnos a través del navegador: cada navegador se configura de una distinta forma. Tan solo debemos usar nuestro buscador y consultar la guia de configuración. Normalmente tiende a aparecer en configuración acanzada – conexiones. Siempre se necesitará la dirección IP del servidor al que nos vamos a conectar y el puerto a través del cual vamos a realizar la conexión.
+
+### Problemas
+- Cada aplicación debe configurarse para que los datos pasen a través del proxy
+- Tiende a tener una lenta conexión
+- No todo lo gratis es de confiar ni todo lo de pago es bueno.
