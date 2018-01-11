@@ -22,4 +22,22 @@ Si algo bueno tiene el software libre es que permite la modificación del códig
 - https://dev.parrotsec.org/Sawyer/anonsurf
   - Nos añade una modificación directa de toda dirección MAC que persente nuestro dispositivo y nos da toda la informacińo a través de notificaciones para facilitar al usuario el entendimiento de los profecos realizados a través de anonsurf.
 
-  
+#### Como instalarlo
+1. Descargamos el repositorio
+```sh
+git clone https://dev.parrotsec.org/Sawyer/anonsurf
+```
+2. Abrimos la carpeta anonsurf y ejecutamos por terminal
+```sh
+sudo make install
+```
+<p align="center">
+  <img src="https://image.ibb.co/fywKNR/anonsurf_install.png">
+</p>
+3. Accedemos a la aplicación ejecutando anonsurf
+```sh
+anonsurf
+```
+<p align="center">
+  <img src="https://image.ibb.co/ei1x96/anonsurf.png">
+</p>
